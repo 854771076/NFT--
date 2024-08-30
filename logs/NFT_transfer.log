@@ -3,3 +3,8 @@
 2024-08-30 16:45:41.671 | SUCCESS  | __main__:run:55 - 发送成功，id:221395
 2024-08-30 16:45:46.118 | SUCCESS  | __main__:run:55 - 发送成功，id:221396
 2024-08-30 16:45:50.263 | SUCCESS  | __main__:run:55 - 发送成功，id:221397
+2024-08-30 17:21:45.721 | ERROR    | __main__:run:60 - 0x3922d42A93feb8971319F6537f46eD70692d22e5-发送失败，ERROR：
+Could not identify the intended function with name `safeTransferFrom`, positional arguments with type(s) `address,address,int,int,bytes` and keyword arguments with type(s) `{}`.
+Found 1 function(s) with the name `safeTransferFrom`: ['safeTransferFrom(address,uint256,uint256,bytes)']
+Function invocation failed due to improper number of arguments.
+2024-08-30 17:24:10.081 | SUCCESS  | __main__:run:58 - 0x3922d42A93feb8971319F6537f46eD70692d22e5-发送成功

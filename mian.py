@@ -31,8 +31,8 @@ def get_contract():
         contract_address=web3.to_checksum_address(contract_address)
         contract = web3.eth.contract(address=contract_address, abi=abi)
         contracts[name]=contract
-def get_NFT_id(address):
-    contract = contracts['NFT']
+def get_NFT_ERC721_id(address):
+    contract = contracts['NFT-ERC721']
     # 查询总供应量
     total=contract.functions.balanceOf(address).call()
     tokens = []
@@ -41,20 +41,24 @@ def get_NFT_id(address):
 
     return tokens
 
-def transferFrom(wallet,to,id):
-    func=contracts['NFT'].functions.transferFrom(wallet['address'],to,id)
+def transferFrom_ERC721(wallet,to,id):
+    func=contracts['NFT-ERC721'].functions.transferFrom(wallet['address'],to,id)
     web3tool.run_contract(func,wallet['address'],wallet['private_key'])
+def safe_transferFrom_ERC1155(wallet,to,id=0,amont=10,data=Web3.to_bytes(hexstr='0x00')):
+    func=contracts['NFT-ERC1155'].functions.safeTransferFrom(wallet['address'],to,id,amont,data)
+    web3tool.run_contract(func,wallet['address'],wallet['private_key'])
+
 def run(wallet):
     account = web3.eth.account.from_key(wallet['private_key'])
     address=account.address
     wallet['address']=address
-    NFTs=get_NFT_id(address)
-    for id in NFTs:
-        try:
-            transferFrom(wallet,to,id)
-            logger.success(f'发送成功，id:{id}')
-        except Exception as e:
-            logger.error(f'发送失败，ERROR：{e}')
+    try:
+        # transferFrom_ERC721(wallet,to,id)
+        safe_transferFrom_ERC1155(wallet,to)
+        logger.success(f'{address}-发送成功')
+    except Exception as e:
+        logger.error(f'{address}-发送失败，ERROR：{e}')
+        
     return wallet
 def from_file_list(file_list):
     res=[]
